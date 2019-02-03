@@ -1,6 +1,9 @@
 class Bicolorable:
+	#Author= Felipe Ríos López & Santiago Gil Zapata
 	
 	def __init__(self):
+		#init is the constructor of the class
+		
 		#n= Number of nodes
 		n = int(input("Put the number of nodes: "))
 		#Maximum possible nodes are 200
