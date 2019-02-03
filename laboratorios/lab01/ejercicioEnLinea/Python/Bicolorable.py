@@ -1,17 +1,18 @@
 class Bicolorable:
-	#Author= Felipe Ríos López & Santiago Gil Zapata
+	#@Author= Felipe Ríos López & Santiago Gil Zapata
 	
 	def __init__(self):
 		#init is the constructor of the class
 		
-		#n= Number of nodes
+		#@param n= Number of nodes
 		n = int(input("Put the number of nodes: "))
 		#Maximum possible nodes are 200
 		if n > 200:
+			#@param k calls the constructor
 			#If n is over 200, the program will restart
 			k = Bicolorable()
 			
-		#a= Number of arcs
+		#@param a= Number of arcs
 		a = int(input("Put the number of arcs: "))
 
 		if  a > n:
@@ -19,11 +20,13 @@ class Bicolorable:
 			k= Bicolorable()
 
 		#Creating a global array
+		#@param Array
 		self.Array = []
 		
 		#Getting everything into the array
 		for i in range(a):
-			#connect = connections 
+			#connect = connections
+			#@param connect= integer
 			connect = input("Put the edges: ")
 			#append = add 
 			self.Array.append(connect)
@@ -32,7 +35,8 @@ class Bicolorable:
 
 	def divideArray(self,Array):
 		#Dividing the array by parts
-		print(self.Array)		
+		print(self.Array)
+		#@param dict = initializing dictionary
 		self.dict = {}
 
 		#Here we'll go through the array that has the length of the arcs 
@@ -48,7 +52,7 @@ class Bicolorable:
 		#Here we create the dictionary to assign every number an edge 
 		#boolean bicol
 		self.bicol=True
-
+		#@param a,b = string
 		a,b = p1.split(" ")
 		#a = the first number of the list that we will divide for example: "1 0"; a=1, b =0.
 		#If a(the firs is in the dictonary, then add, else, create it. We need this avoiding overwriting the keys
@@ -71,6 +75,7 @@ class Bicolorable:
 		return not val in list
 
 	def evaluate(self):
+		#@param bicol = boolean
 		bicol = False
 		#this is made to get the key in every dictionary (a list of keys)
 		keys = self.dict.keys()
