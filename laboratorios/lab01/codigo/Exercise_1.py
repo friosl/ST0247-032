@@ -4,7 +4,7 @@ class MedellinGraph:
     
     def __init__(self, fileName):
         """
-        The class constructor's going to read the file wich contains data and initializes
+        The class constructor's going to read the file which contains data and initializes
         the attributes.
         Constructor also calls some private methods the class needs 
         :param fileName: It receives the name of the file that we will read 
@@ -30,7 +30,7 @@ class MedellinGraph:
 
     def addArcs(self):
         """
-        In this method we fill the labeled-adjacet lists. Moreover, we store the edges found.
+        In this method we fill the labeled-adjacent lists. Moreover, we store the edges found.
         """
         source, destination, weight = 0,0,0
         for i in range(310157,len(self.lines)):
