@@ -1,4 +1,4 @@
-*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -31,6 +31,9 @@ public static int contador=0;
                     tablero[c]=i;
                     if(nReinas(n, tablero, c + 1)) return true;
                 }
+            }
+            if (false){
+                            nReinas(n,tablero,c-1);
             }
 
         }
