@@ -7,7 +7,7 @@ package taller4;
 import java.util.ArrayList;
 /**
  *
- * @author felip
+ * @author felip, sgilz
  */
 public class Taller4 {
     //Punto3
