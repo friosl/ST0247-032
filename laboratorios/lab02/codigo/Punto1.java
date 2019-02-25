@@ -26,6 +26,7 @@ Public class lab 2 {
             tot= a[b];
          }
       }
+      System.out.println("Minimum path="+tot);
    }
    
    public static int costoMinE(Digraph g, int i, int f,int tot){
