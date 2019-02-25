@@ -10,31 +10,39 @@ Public class lab 2 {
    public static void main(String [] args){
    int i=0;
    int f=0;
-   
-   //if(costoMinE(g,i,f)){
-        System.out.println("There is a path)";
-    }
-    else
-    {
-    System.out.println("There is no path");
-    }
+   int tot=0;
+   int[] a= new int [g.size()];
+     /* for(int h=0; h < g.size();h++){
+              a[h]= costoMinE(g,i,f,tot);
+               tot=0;
+                }
+             else{
+              System.out.println("There is no path");
+              tot=0;
+                 }
+    }*/
+      for (int b=0; b < a.size(); b++){
+         if(a[b]<a[b+1]){
+            tot= a[b];
+         }
+      }
    }
    
-   public static boolean costoMinE(Digraph g, int i, int f){
+   public static int costoMinE(Digraph g, int i, int f,int tot){
         boolean visitados  [] = new boolean[g.size()];
-        return costoMinEAux(g,i,f,visitados);
+        return costoMinEAux(g,i,f,visitados,tot);
     }
-    private static boolean costoMinEAux(Digraph g, int i, int f, boolean [] visitados){
+    private static int costoMinEAux(Digraph g, int i, int f, boolean [] visitados,int tot){
         visitados[i]=true;
         ArrayList<Integer> hijos = g.getSuccessors(i);
         for(Integer hijo: hijos){
             if (!visitados[hijo]){
                 boolean costoEuler = costoMinEAux(g,hijo,i,visitados);
                 if(visitados[hijo]==visitados[0]){
-                    return true;
+                    return tot += g.getWeight(i,f);
                 }
             }
         }
-        return false;
+        return 100000000;
     }
 }
