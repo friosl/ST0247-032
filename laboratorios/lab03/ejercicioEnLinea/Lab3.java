@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 /**
  *
- * @author felip
+ * @author friosl
  */
 public class Lab3 {
 
@@ -26,7 +26,6 @@ public class Lab3 {
         Scanner sc = new Scanner(System.in);
         String nm= sc.nextLine();
         System.out.println("Digite el número de vértices n y  el número de arcos m");
-        //nm.split(" "); Aquí meter nm en un arreglo, compararlos bien abajo y luego...
         arr = nm.split(" ");
         Digraph g= new DigraphAM(Integer.parseInt(arr[0]));
         pedirNM(n,m,g);
@@ -71,6 +70,10 @@ public class Lab3 {
         if (inicial==ultv){
            entra = new ArrayList<>(caminobueno); 
         }
+        /*Para guiarme sobre este ciclo, me basé en el repositorio de:
+        https://github.com/msuribec/ST0247-032/blob/master/laboratorios/lab03/ejercicioEnLinea/ShortestPathRecovery.java
+        Me faltaba la condición de cuando el camino fuera mayor y el remover cuando entrara.
+        */
         for(Integer hijo: hijos){
         int w = g.getWeight(inicial,hijo)+visitados[inicial];
                 if(visitados[hijo]>w){
@@ -79,7 +82,9 @@ public class Lab3 {
                 entra=obtenerCamino(g,ultv,inicial,visitados,caminobueno,entra);
                 caminobueno.remove(hijo);
                 }
-                else{
+                else
+                {
+                    
                     System.out.print(hijo+" ");
           
                 }
