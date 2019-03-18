@@ -25,7 +25,7 @@ public class Lab3 {
         do{
         Scanner sc = new Scanner(System.in);
         String nm= sc.nextLine();
-        System.out.println("Digite el número de vértices n y  el número de arcos m");
+        System.out.println("Put the number of vertex n and the number of edges m");
         arr = nm.split(" ");
         Digraph g= new DigraphAM(Integer.parseInt(arr[0]));
         pedirNM(n,m,g);
@@ -33,7 +33,7 @@ public class Lab3 {
         } while(Integer.parseInt(arr[0])<2||Integer.parseInt(arr[0])>105||Integer.parseInt(arr[1])<0||Integer.parseInt(arr[1])>105);
     }
     public static void pedirNM(int v, int a, Digraph g){
-        System.out.println("Ponga los vértices y por último su peso");
+        System.out.println("Put the vertex and at last its weight");
         int ultv=0;
         for(int i=0; i<a;i++){
             System.out.println("Arcos en: "+i);
@@ -70,7 +70,7 @@ public class Lab3 {
         if (inicial==ultv){
            entra = new ArrayList<>(caminobueno); 
         }
-        /*Para guiarme sobre este ciclo, me basé en el repositorio de:
+        /* I based this cicle for in this repository:
         https://github.com/msuribec/ST0247-032/blob/master/laboratorios/lab03/ejercicioEnLinea/ShortestPathRecovery.java
         Me faltaba la condición de cuando el camino fuera mayor y el remover cuando entrara.
         */
@@ -88,5 +88,4 @@ public class Lab3 {
     }
 }
     
-    //Luego: para n y m cantidad de arcos (según el problema) volver a separarlas líneas que entren para saber cuales tienen arco y cual es su peso.
     
