@@ -67,8 +67,17 @@ public class Lab3 {
     
     private static ArrayList obtenerCamino(Digraph g,int ultv,int inicial, int []visitados, ArrayList<Integer> caminobueno, ArrayList<Integer> entra){
         ArrayList<Integer> hijos = g.getSuccessors(inicial);
-        if (inicial==ultv){
-           entra = new ArrayList<>(caminobueno); 
+        
+        if (inicial==ultv||inicial>=107){
+           if(inicial==ultv){
+            entra = new ArrayList<>(caminobueno); 
+            return entra;
+            }
+            else
+            {
+                entra.clear();
+                entra.add(-1);
+            }
         }
         /* I based this cicle for in this repository:
         https://github.com/msuribec/ST0247-032/blob/master/laboratorios/lab03/ejercicioEnLinea/ShortestPathRecovery.java
