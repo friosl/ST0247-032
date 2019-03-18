@@ -79,14 +79,8 @@ public class Lab3 {
                 if(visitados[hijo]>w){
                 visitados[hijo]=w;
                 caminobueno.add(hijo);
-                entra=obtenerCamino(g,ultv,inicial,visitados,caminobueno,entra);
+                entra=obtenerCamino(g,ultv,hijo,visitados,caminobueno,entra);
                 caminobueno.remove(hijo);
-                }
-                else
-                {
-                    
-                    System.out.print(hijo+" ");
-          
                 }
         }
         return entra;
