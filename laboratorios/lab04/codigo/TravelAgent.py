@@ -4,7 +4,7 @@ def path (g, initial):
     Method to search the best route in a circuit
 
     :param g: an instance of Digraph to do the searching
-    :param initial: the initial vertex, where the seaching will begin
+    :param initial: the initial vertex, where the search will begin
     :return: A list with the order of vertices 
     to visit being initial the first and the final vertex
     """
