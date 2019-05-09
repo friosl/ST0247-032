@@ -1,24 +1,27 @@
 #include "Digraph.h"
 #include "Assignations.h"
-#include <fstream>      // ifstream to read files
-#include <string>
+#include "ProjectExceptions.h"
 #include <iostream>
 #include <sstream>
+#include <math.h>
 using namespace std;
-
-/**some functions We made
-(rmZeros, getLines, extractK)*/
-inline string rmZeros(float);
-inline vector<string>* getLines(ifstream &);
-inline string makeLine(vector<int>);
-vector<int> extractK(string &s, char c);
 
 Assignations :: ~Assignations () { }
 
+void Assignations :: execute(int vertices, float increment){
+    int initial = 1;
+    this->saveRegister(this->assign(this->readFile(vertices,
+                                                   increment),
+                                    increment, 
+                                    initial),
+                       increment,
+                       vertices);
+}
+
 Digraph* Assignations :: readFile(int numVertices, float increment){
     //making file Name
-    string fileName = "dataset-ejemplo-U=" + to_string(numVertices);
-    fileName.append("-p="+rmZeros(increment)); //  rmZeros in "helper.h"
+    string fileName = "datasets/dataset-ejemplo-U=" + to_string(numVertices);
+    fileName.append("-p="+rmZeros(increment)); //  rmZeros's implementated below
     fileName.append(".txt");
 
     ifstream file;
@@ -27,34 +30,57 @@ Digraph* Assignations :: readFile(int numVertices, float increment){
         vector<string> *lines = getLines(file);
         Digraph *g  = new Digraph(numVertices);
         while(!(lines->empty())){
-            vector<int> data = extractK(lines->back(), ' ');
+            vector<int> data = split(lines->back(), ' ');
             try{
                 g->addArc(data[0], data[1], data[2]);
             } catch(...){
                 cerr << "Less than 3 data extracted" << endl;
-                throw;
+                throw DataError;
             }
             lines->pop_back();
         }
         return g;
     }
     cerr << "File not found" << endl;
-    throw;
+    throw FileNotFound;
 }
 
-vector<vector<int> >* Assignations :: assign( Digraph* g, float increment){
-    return 0;
+vector<vector<int> >* Assignations :: assign( Digraph* g, float increment, int initial){
+    int length = g->getSize();
+    vector<vector<int> >* assignedCars = new vector<vector<int> >;
+    
+    //successors are the same for every vertex due g is complete 
+    vector<int> successors;
+    for (int c = 0; c < length-2; c++ ) successors.push_back(c+2); // '-2' because of we except vertex 1
+    vector<int> orderedIDs = this->orderedByNearest(g, successors, initial);
+    while(! orderedIDs.empty()){
+        int driver = orderedIDs.back();
+        vector <int> car;
+        
+        const int timeLimit = (int) (increment * g->getWeight(driver, initial));
+
+        vector<int> nearestTheDriver = this->orderedByNearest(g, orderedIDs, driver);
+        for(int candidate: nearestTheDriver){
+            if (car.size() == 5) break; // 5 max. number of passengers including the driver
+            if (this->canTake(g, car, timeLimit, candidate, initial)){
+                car.push_back(candidate);
+                this->erase(orderedIDs, candidate);
+            }
+        }
+        assignedCars->push_back(car);
+    }
+    return assignedCars;
 }
 
-void Assignations :: saveRegister(vector<vector<int> >* assignedCars, float increment, short people) {
+void Assignations :: saveRegister(vector<vector<int> >* assignedCars, float increment, int people) {
     //Making the fileOut name
-    string fileName("CarsListFor-U=");
+    string fileName("output/CarsListFor-U=");
     fileName += to_string(people) + "-p=";
     fileName += rmZeros(increment) + ".txt";
 
     ofstream out;
     out.open(fileName);
-    string out_Line = "ASSIGNED CARS: DRIVER ( PASSENGER i)* \n\n";
+    string out_Line = "ASSIGNED CARS: DRIVER ( PASSENGER)* \n\n";
     
     while(!assignedCars->empty()){
         out_Line += makeLine(assignedCars->back());
@@ -62,6 +88,57 @@ void Assignations :: saveRegister(vector<vector<int> >* assignedCars, float incr
     }
     out << out_Line;
     out.close();
+}
+
+vector<int> Assignations :: orderedByNearest(Digraph* g, vector<int> ids, int initial){
+    if(ids.empty() or !g->getSize()) {
+        cerr << "Couldn't find the farthest vertex due error in parametres"<< endl;
+        throw EmptyStructure;
+    }
+    
+    vector<int> orderedIDs;
+
+    while(!ids.empty()){
+        int index = 0;
+        int min = ids[0];
+
+        for (int i = 0; i < ids.size(); ++i)
+            if (g->getWeight(initial, ids[i])
+                < g->getWeight(initial, min)){ 
+                    min = ids[i];
+                    index = i;
+            }
+
+        orderedIDs.push_back(min);
+        ids[index] = ids.back();
+        ids.pop_back();
+    }
+    return orderedIDs;
+}
+
+bool Assignations :: canTake(Digraph *g, vector<int> &car, const int timeLimit, int candidate, int initial){
+    if (car.empty()) return true;
+
+    int sum = 0;
+    int source = car[0];
+    for(int passenger: car){
+        sum += g->getWeight(source, passenger);
+        source = passenger;
+    }
+    return timeLimit >= (sum + 
+            g->getWeight(source, candidate) +
+            g->getWeight(candidate, initial));
+}
+
+void Assignations :: erase(vector<int> &orderedIDs, int &readyPassenger){
+    const int N = orderedIDs.size();
+    if (orderedIDs.empty()) return;
+
+    for(int c=0; c<N; ++c)
+        if(orderedIDs[c] == readyPassenger){
+            orderedIDs.erase(orderedIDs.begin()+c);
+            return;
+        }
 }
 
 //Implementation of fuctions defined above 
@@ -92,10 +169,10 @@ inline vector<string>* getLines(ifstream &f){
         return lines;
     } 
     cerr << "File isn't open" << endl;
-    throw;
+    throw FileNotFound;
 }
 
-vector<int> extractK(string &s, char c){
+vector<int> split(string &s, char c){
 	string buff("");
 	vector<int> v;
 

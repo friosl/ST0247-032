@@ -1,13 +1,12 @@
-all: carsMobility
 
-carsMobility: Assignations.o main.o Digraph.o
-    $(CXX) -o $@ $^ -Wall
+carsMobility: main.o Assignations.o Digraph.o
+	$(CXX) -o $@ $^ -Wall
 
-Assignations.o: Assignations.cpp Assignations.h Digraph.h
+Digraph.o: Digraph.cpp Digraph.h ProjectExceptions.h
 
-main.o: main.cpp Assignations.h Digraph.h
+Assignations.o: Assignations.cpp Assignations.h Digraph.h ProjectExceptions.h
 
-Digraph.o: Digraph.cpp Digraph.h
+main.o: main.cpp Assignations.h Digraph.h ProjectExceptions.h
 
 clean:
-    rm *.o *.exe *.*~
+	rm *.o *.exe *~ CarsListFor*

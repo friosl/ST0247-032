@@ -1,9 +1,11 @@
 #include "Digraph.h"
+#include "ProjectExceptions.h"
 #include <iostream>
 
 Digraph :: Digraph(int size) : 
-size(size++) { // one more for the vertex company
+size((size+=1)) { // one more for the vertex company
     matrix.resize(size);
+    
     for (int c = 0; c < matrix.size(); c++)
         matrix[c].resize(size);
 }
@@ -21,7 +23,7 @@ void Digraph :: addArc(int source, int destination, int weight) {
         matrix[(source-1)][(destination-1)] = weight;
     } catch (...){
         std :: cerr << "Can't add Arc" << endl;
-        throw;
+        throw IndexError;
     }
 }
 
