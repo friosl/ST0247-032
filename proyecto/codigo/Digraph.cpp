@@ -3,7 +3,7 @@
 #include <iostream>
 
 Digraph :: Digraph(int size) : 
-size((size+=1)) { // one more for the vertex company
+size(size) { 
     matrix.resize(size);
     
     for (int c = 0; c < matrix.size(); c++)

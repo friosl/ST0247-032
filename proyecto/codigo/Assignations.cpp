@@ -21,7 +21,7 @@ void Assignations :: execute(int vertices, float increment){
 Digraph* Assignations :: readFile(int numVertices, float increment){
     //making file Name
     string fileName = "datasets/dataset-ejemplo-U=" + to_string(numVertices);
-    fileName.append("-p="+rmZeros(increment)); //  rmZeros's implementated below
+    fileName.append("-p="+rmZeros(increment)); //  rmZeros's implemented below
     fileName.append(".txt");
 
     ifstream file;
@@ -51,15 +51,15 @@ vector<vector<int> >* Assignations :: assign( Digraph* g, float increment, int i
     
     //successors are the same for every vertex due g is complete 
     vector<int> successors;
-    for (int c = 0; c < length-2; c++ ) successors.push_back(c+2); // '-2' because of we except vertex 1
+    for (int c = 2; c <= length; ++c ) successors.push_back(c);
     vector<int> orderedIDs = this->orderedByNearest(g, successors, initial);
     while(! orderedIDs.empty()){
         int driver = orderedIDs.back();
         vector <int> car;
         
         const int timeLimit = (int) (increment * g->getWeight(driver, initial));
-
         vector<int> nearestTheDriver = this->orderedByNearest(g, orderedIDs, driver);
+
         for(int candidate: nearestTheDriver){
             if (car.size() == 5) break; // 5 max. number of passengers including the driver
             if (this->canTake(g, car, timeLimit, candidate, initial)){
@@ -69,6 +69,14 @@ vector<vector<int> >* Assignations :: assign( Digraph* g, float increment, int i
         }
         assignedCars->push_back(car);
     }
+    cout << "For a set U with size = " 
+	 << g->getSize()
+	 << " and P = "
+	 << increment
+	 << ", there have been assigned "
+	 << assignedCars->size()
+	 << " cars."
+	 << endl;
     return assignedCars;
 }
 

@@ -64,6 +64,6 @@ int main(int argc, char *argv[]) {
 }
 
 void usage(const char *progName){
-    cerr << "Usage: "<< *progName << " -n <vertices> -p <increment>"
+    cerr << "Parameters: " << " -n <vertices> -p <increment>"
          << endl;
 }
